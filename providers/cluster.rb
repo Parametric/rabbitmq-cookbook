@@ -194,7 +194,7 @@ action :join do
 
   var_cluster_status = cluster_status
   var_node_name = node_name
-  var_node_name_to_join = parse_cluster_nodes_string(new_resource.cluster_nodes).first['name']
+  var_node_name_to_join = new_resource.cluster_nodes
 
   if var_node_name == var_node_name_to_join
     Chef::Log.warn('[rabbitmq_cluster] Trying to join cluster node itself. Joining cluster will be skipped.')
@@ -235,7 +235,7 @@ action :change_cluster_node_type do
   var_cluster_status = cluster_status
   var_node_name = node_name
   var_current_cluster_node_type = current_cluster_node_type(var_node_name, var_cluster_status)
-  var_cluster_node_type = parse_cluster_nodes_string(new_resource.cluster_nodes).each { |node| node['name'] == var_node_name }.first['type'] # ~FC039
+  var_cluster_node_type = new_resource.cluster_nodes
 
   if var_current_cluster_node_type == var_cluster_node_type
     Chef::Log.warn('[rabbitmq_cluster] Skip changing cluster node type : trying to change to same cluster node type')
